@@ -1,3 +1,5 @@
+import { LoginModule } from './login/login.module';
+import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './shared/guard/auth.guard';
@@ -10,12 +12,12 @@ const routes: Routes = [
     },
     {
         path: 'login',
-        loadChildren: './login/login.module#LoginModule'
+        component: LoginComponent
     }
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
+    imports: [RouterModule.forRoot(routes), LoginModule],
     exports: [RouterModule],
     providers: [AuthGuard]
 })

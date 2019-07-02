@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 export class ApiService {
 
-    private url = 'http://localhost:8080/';
+    private url = 'http://localhost:8090/';
 
     public getBaseUrl() {
         return this.url;

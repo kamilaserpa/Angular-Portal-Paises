@@ -1,3 +1,5 @@
+import { LoginService } from './login.service';
+import { FormsModule } from './../layout/forms/forms.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -5,16 +7,27 @@ import { MatButtonModule, MatCheckboxModule, MatInputModule } from '@angular/mat
 
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     imports: [
         CommonModule,
         LoginRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
         MatInputModule,
         MatCheckboxModule,
         MatButtonModule,
-        FlexLayoutModule.withConfig({addFlexToParent: false})
+        FlexLayoutModule.withConfig({addFlexToParent: false}),
+        SharedModule
     ],
-    declarations: [LoginComponent]
+    declarations: [LoginComponent],
+    exports: [
+        LoginComponent
+    ],
+    providers: [
+        LoginService
+    ]
 })
 export class LoginModule {}

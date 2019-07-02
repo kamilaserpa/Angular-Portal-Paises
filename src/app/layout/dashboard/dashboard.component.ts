@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { Observable } from 'rxjs-compat';
-
 export interface PeriodicElement {
     name: string;
     position: number;
@@ -34,9 +31,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class DashboardComponent implements OnInit {
 
-    messagesCollection: AngularFirestoreCollection<Message>;
-    messagesDoc: AngularFirestoreDocument<Message>;
-   // messages: Observable<Message[]>;
+    // messages: Observable<Message[]>;
     messages: any;
 
     displayedColumns = ['position', 'name', 'weight', 'symbol'];
@@ -49,7 +44,7 @@ export class DashboardComponent implements OnInit {
         this.dataSource.filter = filterValue;
     }
 
-    constructor(private afs: AngularFirestore) {
+    constructor() {
         this.places = [
             {
                 imgSrc: 'assets/images/card-1.jpg',
@@ -81,17 +76,7 @@ export class DashboardComponent implements OnInit {
         ];
     }
 
-    ngOnInit() {
-       /* this.messagesCollection = this.afs.collection('development');
-        this.messages = this.messagesCollection.valueChanges();    
-        console.log(this.messages);*/
-       
-        let messagesNew = this.afs.collection('development').valueChanges();
-        let transformArray = messagesNew.subscribe((langs) => {
-            this.messages = langs;
-            console.log(this.messages);
-        });
-    }
+    ngOnInit() { }
 
 
 }
