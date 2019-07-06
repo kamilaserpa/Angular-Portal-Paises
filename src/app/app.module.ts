@@ -6,8 +6,10 @@ import {
     MatIconModule,
     MatListModule,
     MatSidenavModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatTableModule
 } from '@angular/material';
+import { MatSortModule } from '@angular/material/sort';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -41,6 +43,10 @@ export const createTranslateLoader = (http: HttpClient) => {
         OverlayModule,
         HttpClientModule,
         SharedModule,
+        MatTableModule,
+        BrowserModule,
+        MatTableModule,
+        MatSortModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

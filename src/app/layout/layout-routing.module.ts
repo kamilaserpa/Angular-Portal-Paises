@@ -13,8 +13,12 @@ const routes: Routes = [
                 redirectTo: 'dashboard'
             },
             {
-                path: 'charts',
-                loadChildren: './charts/charts.module#ChartsModule'
+                path: 'paislistagem',
+                loadChildren: './pais/pais.module#PaisModule'
+            },
+            {
+                path: 'paislistagem/:id',
+                loadChildren: './pais/pais.module#PaisModule'
             },
             {
                 path: 'dashboard',
