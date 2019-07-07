@@ -19,4 +19,16 @@ export class PaisService {
     public renovarToken() {
       return this.http.get(this.api.getBaseUrl() + 'usuario/renovar-ticket?token=' + this.TOKEN, {});
     }
+
+    public save(pais) {
+      return this.http.post(this.api.getBaseUrl() + 'pais/salvar', pais);
+    }
+
+    public delete(idPais) {
+      return this.http.get(this.api.getBaseUrl() + 'pais/ecluir?id=' + idPais + '&token=' + this.TOKEN);
+    }
+
+    public getPais(nomePais) {
+      return this.http.get(this.api.getBaseUrl() + 'pais/pesquisar?filtro=' + nomePais + '&token=' + this.TOKEN);
+    }
 }

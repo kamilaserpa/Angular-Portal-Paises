@@ -1,3 +1,5 @@
+import { PaisListagemComponent } from './pais/pais-listagem/pais-listagem.component';
+import { PaisCadastroComponent } from './pais/pais-cadastro/pais-cadastro.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -10,15 +12,19 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                redirectTo: 'dashboard'
+                redirectTo: 'paislistagem'
             },
             {
                 path: 'paislistagem',
-                loadChildren: './pais/pais.module#PaisModule'
+                component: PaisListagemComponent
             },
             {
-                path: 'paislistagem/:id',
-                loadChildren: './pais/pais.module#PaisModule'
+                path: 'paiscadastro',
+                component: PaisCadastroComponent
+            },
+            {
+                path: 'paiscadastro/:filter',
+                component: PaisCadastroComponent
             },
             {
                 path: 'dashboard',

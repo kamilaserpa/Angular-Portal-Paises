@@ -47,6 +47,7 @@ export const createTranslateLoader = (http: HttpClient) => {
         BrowserModule,
         MatTableModule,
         MatSortModule,
+        MatButtonModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

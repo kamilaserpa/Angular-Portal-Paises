@@ -31,6 +31,12 @@ export class AlertService {
   }
 
   // DANGER - VERMELHO
+  danger(message) {
+    message.type = 'warning';
+
+    this.sendMessage(message);
+  }
+
   sendMessage(message: any) {
       if (!message.type) {
         message.type = 'danger';

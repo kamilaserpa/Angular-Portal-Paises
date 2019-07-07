@@ -16,10 +16,10 @@ import { MatSort } from '@angular/material/sort';
 export class PaisListagemComponent implements OnInit {
 
   arrayPaises: Pais[] = [];
-  roleAdmin = localStorage.getItem('admin');
+  roleAdmin = (localStorage.getItem('admin') === 'true');
   error = { status: '' };
 
-  displayedColumns: string[] = ['id', 'nome', 'sigla', 'gentilico'];
+  displayedColumns: string[];
   dataSource = new MatTableDataSource();
 
   // Variáveis para ordenação e paginação da tabela
@@ -31,7 +31,16 @@ export class PaisListagemComponent implements OnInit {
     private alertService: AlertService) { }
 
   ngOnInit() {
+    this.exibirColunas();
     this.listarPaises();
+  }
+
+  exibirColunas() {
+    if (this.roleAdmin) {
+      this.displayedColumns = ['id', 'nome', 'sigla', 'gentilico', 'btnExcluir'];
+    } else {
+      this.displayedColumns = ['id', 'nome', 'sigla', 'gentilico'];
+    }
   }
 
   listarPaises() {
@@ -47,7 +56,7 @@ export class PaisListagemComponent implements OnInit {
       if (error.status == 401) {
         this.renovarToken();
       } else {
-        this.alertService.warning('Por favor, verifique sua conexão');
+        this.alertService.warning({ title: 'Atenção!', msg: 'Por favor, verifique sua conexão'});
       }
     });
   }
@@ -57,25 +66,37 @@ export class PaisListagemComponent implements OnInit {
       if (response) {
         this.listarPaises();
       } else {
-        this.alertService.warning('Por favor, faça login novamente.');
+        this.alertService.warning({ title: 'Atenção!', msg: 'Por favor, faça login novamente.'});
       }
     }, error => {
       console.log(error);
-      this.alertService.warning('Por favor, verifique sua conexão');
+      this.alertService.warning({title: 'Atenção!', msg: 'Por favor, verifique sua conexão'});
     });
   }
 
   updatePais(pais) {
+    console.log('update');
     if (this.roleAdmin) {
-      this.router.navigate(['paislistagem/' + pais.id]);
+      this.router.navigate(['/paiscadastro/' + pais.nome]);
     } else {
-      this.alertService.sendMessage('Você não tem permissão para edição.');
+      this.alertService.sendMessage({title: 'Ops!', msg: 'Você não tem permissão para edição.'});
     }
   }
 
+  addPais() {
+    this.router.navigate(['/paiscadastro']);
+  }
+
+  delete(idPais) {
+    this.paisService.delete(idPais).subscribe(response => {
+      console.log(response);
+    }, error => {
+      console.log(error);
+    })
+  }
+
+
 }
-
-
 
 
 export interface Pais {
