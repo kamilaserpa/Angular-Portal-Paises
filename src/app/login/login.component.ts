@@ -1,5 +1,5 @@
 import { LoginService } from './login.service';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertService } from '../shared/components/alert/alert.service';
@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('token', usuario.token);
         localStorage.setItem('admin', usuario.administrador);
         localStorage.setItem('nome', usuario.nome);
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/paislistagem']);
     }
 
     ngOnSubmit() {
@@ -52,12 +52,12 @@ export class LoginComponent implements OnInit {
                 if (this.usuario.autenticado) {
                     this.onLogin(this.usuario);
                 } else {
-                    this.alertService.warning({ title: 'Atenção!', msg: 'Verifique os dados de acesso.'})
+                    this.alertService.sendMessage({ title: 'Atenção!', msg: 'Verifique os dados de acesso (login, senha).'})
                 }
             }, error => {
                 this.alertService.warning({ title: 'Atenção!', msg: 'Verifique sua conexão.'})
-            })
+            });
         }
-    };
-    
+    }
+
 }

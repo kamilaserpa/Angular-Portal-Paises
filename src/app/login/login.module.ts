@@ -1,5 +1,4 @@
 import { LoginService } from './login.service';
-import { FormsModule } from './../layout/forms/forms.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -14,7 +13,6 @@ import { SharedModule } from '../shared/shared.module';
     imports: [
         CommonModule,
         LoginRoutingModule,
-        FormsModule,
         ReactiveFormsModule,
         MatInputModule,
         MatCheckboxModule,

@@ -15,8 +15,6 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { TopnavComponent } from './components/topnav/topnav.component';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
-import { NavComponent } from './nav/nav.component';
-import { PaisCadastroComponent } from './pais/pais-cadastro/pais-cadastro.component';
 
 @NgModule({
     imports: [
@@ -32,6 +30,6 @@ import { PaisCadastroComponent } from './pais/pais-cadastro/pais-cadastro.compon
         TranslateModule,
         PaisModule
     ],
-    declarations: [LayoutComponent, NavComponent, TopnavComponent, SidebarComponent]
+    declarations: [LayoutComponent, TopnavComponent, SidebarComponent]
 })
 export class LayoutModule {}

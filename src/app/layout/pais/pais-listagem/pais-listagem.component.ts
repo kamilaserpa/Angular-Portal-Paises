@@ -81,7 +81,7 @@ export class PaisListagemComponent implements OnInit {
         this.listarPaises();
         this.alertService.success({ title: 'Ok!', msg: 'País excluído com sucesso.'});
       }, error => {
-        this.alertService.danger({ title: 'Atenção!', msg: 'Não foi possível excluir.'});
+        this.alertService.sendMessage({ title: 'Atenção!', msg: 'Não foi possível excluir.'});
       });
     });
   }
@@ -99,7 +99,7 @@ export class PaisListagemComponent implements OnInit {
       this.alertService.sendMessage({title: 'Atenção!', msg: 'Por favor, verifique sua conexão'});
     });
   }
-  
+
 }
 
 

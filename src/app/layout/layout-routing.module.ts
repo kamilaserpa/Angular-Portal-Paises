@@ -25,27 +25,6 @@ const routes: Routes = [
             {
                 path: 'paiscadastro/:filter',
                 component: PaisCadastroComponent
-            },
-            {
-                path: 'dashboard',
-                loadChildren: './dashboard/dashboard.module#DashboardModule'
-            },
-            {
-                path: 'components',
-                loadChildren:
-                    './material-components/material-components.module#MaterialComponentsModule'
-            },
-            {
-                path: 'forms',
-                loadChildren: './forms/forms.module#FormsModule'
-            },
-            {
-                path: 'grid',
-                loadChildren: './grid/grid.module#GridModule'
-            },
-            {
-                path: 'tables',
-                loadChildren: './tables/tables.module#TablesModule'
             }
         ]
     }
