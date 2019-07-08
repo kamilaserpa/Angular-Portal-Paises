@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class TopnavComponent implements OnInit {
     public pushRightClass: string;
+    nome;
 
     constructor(public router: Router, private translate: TranslateService) {
         this.router.events.subscribe(val => {
@@ -20,6 +21,7 @@ export class TopnavComponent implements OnInit {
 
     ngOnInit() {
         this.pushRightClass = 'push-right';
+        this.nome = localStorage.getItem('nome');
     }
 
     isToggled(): boolean {
@@ -33,7 +35,9 @@ export class TopnavComponent implements OnInit {
     }
 
     onLoggedout() {
+        /** Fazendo logout */
         localStorage.removeItem('isLoggedin');
+        localStorage.clear();
         this.router.navigate(['/login']);
     }
 

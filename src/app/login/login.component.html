@@ -1,20 +1,20 @@
 <div class="login-page">
     <div class="content">
-        <form class="login-form" fxFlex  >
+        <form class="login-form" fxFlex [formGroup]="dataForm" (ngSubmit)="ngOnSubmit()">
             <div class="text-center">
-                <h2 class="app-name">Bletooth Sensor Reader</h2>
+                <h2 class="app-name">Portal Países</h2>
             </div>
             <div fxFlex  fxlayout="row" fxlayout.lt-md="column">
                 <div fxFlexFill>
                     <mat-form-field class="w-100">
-                        <input matInput placeholder="Email">
+                        <input matInput placeholder="Login" formControlName="login">
                     </mat-form-field>
                 </div>
             </div>
             <div fxFlex  fxLayout="row" fxLayout.lt-md="column">
                 <div fxFlexFill>
                     <mat-form-field class="w-100">
-                        <input matInput type="password" placeholder="Senha">
+                        <input matInput type="password" placeholder="Senha" formControlName="senha">
                     </mat-form-field>
                 </div>
             </div>
@@ -28,10 +28,12 @@
             </div>
             <div fxFlex  fxLayout="row" fxLayout.lt-md="column">
                 <div fxFlexFill>
-                    <button mat-raised-button color="primary" class="w-100" (click)="onLogin()">Entrar</button>
+                    <button mat-raised-button color="primary" class="w-100" type="submit">Entrar</button>
                 </div>
             </div>
 
         </form>
     </div>
 </div>
+
+<app-alert></app-alert>

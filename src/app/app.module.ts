@@ -6,8 +6,10 @@ import {
     MatIconModule,
     MatListModule,
     MatSidenavModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatTableModule
 } from '@angular/material';
+import { MatSortModule } from '@angular/material/sort';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -18,8 +20,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { SharedModule } from './shared/shared.module';
 
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
@@ -41,8 +42,12 @@ export const createTranslateLoader = (http: HttpClient) => {
         LayoutModule,
         OverlayModule,
         HttpClientModule,
-        AngularFireModule.initializeApp(environment.firebaseConfig),
-        AngularFirestoreModule,
+        SharedModule,
+        MatTableModule,
+        BrowserModule,
+        MatTableModule,
+        MatSortModule,
+        MatButtonModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

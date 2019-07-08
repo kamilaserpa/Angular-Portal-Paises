@@ -1,3 +1,4 @@
+import { PaisModule } from './pais/pais.module';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
@@ -14,7 +15,6 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { TopnavComponent } from './components/topnav/topnav.component';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
-import { NavComponent } from './nav/nav.component';
 
 @NgModule({
     imports: [
@@ -27,8 +27,9 @@ import { NavComponent } from './nav/nav.component';
         MatInputModule,
         MatMenuModule,
         MatListModule,
-        TranslateModule
+        TranslateModule,
+        PaisModule
     ],
-    declarations: [LayoutComponent, NavComponent, TopnavComponent, SidebarComponent]
+    declarations: [LayoutComponent, TopnavComponent, SidebarComponent]
 })
 export class LayoutModule {}
