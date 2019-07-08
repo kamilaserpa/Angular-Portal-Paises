@@ -21,11 +21,11 @@ export class PaisService {
     }
 
     public save(pais) {
-      return this.http.post(this.api.getBaseUrl() + 'pais/salvar', pais);
+      return this.http.post(this.api.getBaseUrl() + 'pais/salvar?token=' + this.TOKEN, pais);
     }
 
     public delete(idPais) {
-      return this.http.get(this.api.getBaseUrl() + 'pais/ecluir?id=' + idPais + '&token=' + this.TOKEN);
+      return this.http.get(this.api.getBaseUrl() + 'pais/excluir?id=' + idPais + '&token=' + this.TOKEN);
     }
 
     public getPais(nomePais) {

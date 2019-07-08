@@ -1,3 +1,4 @@
+import { InputSiglaComponent } from './../input-sigla/input-sigla.component';
 import { PaisService } from './../pais.service';
 import { AlertService } from './../../../shared/components/alert/alert.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,8 +14,14 @@ export class PaisCadastroComponent implements OnInit {
 
   nomePais;
   dataForm: FormGroup;
-  pais;
   error = { status: '' };
+  inputSigla;
+  pais = {
+    id: '',
+    nome: '',
+    sigla: '',
+    gentilico: ''
+  };
 
   constructor(private activatedRouter: ActivatedRoute,
     private router: Router,
@@ -24,6 +31,7 @@ export class PaisCadastroComponent implements OnInit {
 
   ngOnInit() {
 
+    // Recebe parâmetro com nome do país
     this.activatedRouter.paramMap.subscribe(params => {
       this.nomePais = params.get('filter');
       if (this.nomePais) {
@@ -32,82 +40,95 @@ export class PaisCadastroComponent implements OnInit {
     }, error => {
       console.log(error);
     });
+     this.criaForm(); 
+  }
 
+  public criaForm() {
     this.dataForm = this.fb.group({
       id: [null],
       nome: [null, Validators.required],
       sigla: [null, Validators.required],
       gentilico: [null, Validators.required]
     });
+  }
 
+  // Insere no formulário dado digitado no componente filho InputSiglaComponent
+  public getSigla (inputSigla: any) : void {
+    this.dataForm.patchValue({sigla: inputSigla});
   }
 
   getPais(nome) {
-    this.paisService.getPais(nome).subscribe(response => {
-      let array = response;
-      this.pais = array[0];
-      console.log(response);
-      this.dataForm.patchValue({
-        id: this.pais.id,
-        nome: this.pais.nome,
-        gentilico: this.pais.gentilico,
-        sigla: this.pais.sigla
+    this.renovaTokenCallback(() => {
+        this.paisService.getPais(nome).subscribe(response => {
+          let array = response;
+          this.pais = array[0];
+          console.log(response);
+          this.dataForm.patchValue({
+            id: this.pais.id,
+            nome: this.pais.nome,
+            gentilico: this.pais.gentilico,
+            sigla: this.pais.sigla
+          });
+          // Envia sigla recebida do DataBase para o component filho InputSiglaComponent
+          InputSiglaComponent.siglaDB.next(this.pais.sigla);
+        }, error => {
+          console.log(error);
+          this.alertService.warning({ title: 'Atenção!', msg: 'Por favor, verifique sua conexão' });
+        });
       });
-      console.log('pais get, dataform', this.dataForm);
-
-      //this.dataForm.get('first').setValue('some value');
-    }, error => {
-      console.log(error);
-      if (error.status == 401) {
-        this.renovarToken();
-      } else {
-        this.alertService.warning({ title: 'Atenção!', msg: 'Por favor, verifique sua conexão'});
-      }
-    });
   }
 
   save() {
-    this.pais.id = this.dataForm.value.id;
-    this.pais.nome = this.dataForm.value.nome;
-    this.pais.gentilico = this.dataForm.value.gentilico;
-    this.pais.sigla = this.dataForm.value.sigla;
+    // Verifica formulário
+    if (this.dataForm.invalid) {
+      this.alertService.warning({ title: 'Atenção!', msg : 'Campo(s) inválido(s)!' });
+    } else {
+      if (this.dataForm.value.id) {
+        this.pais.id = this.dataForm.value.id;
+      }
+      this.pais.nome = this.dataForm.value.nome;
+      this.pais.gentilico = this.dataForm.value.gentilico;
+      this.pais.sigla = this.dataForm.value.sigla;
 
-    this.renovaTokenCal(this.paisService.save(this.pais).subscribe(response => {
-      console.log(response);
-    }, error => {
-      this.alertService.sendMessage({title: 'Atenção!', msg: 'Não foi possível salvar suas alterações, verifique sua conexão'});
-    })
-    );
+      this.renovaTokenCallback(() => {
+        this.paisService.save(this.pais).subscribe(response => {
+          console.log(response);
+          this.alertService.success({ title: 'OK!', msg: 'Cadastro efetuado com sucesso!' });
+        }, error => {
+          this.alertService.sendMessage({ title: 'Atenção!', msg: 'Não foi possível salvar suas alterações, verifique sua conexão' });
+        });
+      });
+    }
   }
-  renovaTokenCal(calback) {
-    this.paisService.renovarToken().subscribe((response) => {
+
+  delete() {
+    this.renovaTokenCallback(() => {
+      this.paisService.delete(this.pais.id).subscribe(response => {
+      console.log(response);
       if (response) {
-        calback();
+        this.router.navigate(['/paislistagem']);
+        this.alertService.success({title: 'Ok!', msg: 'País excluído com sucesso.'});
+      } else {
+        this.alertService.sendMessage({title: 'Atenção!', msg: 'Por favor, verifique sua conexão'});
+      }
+    }, error => {
+      this.alertService.sendMessage({title: 'Atenção!', msg: 'Por favor, verifique sua conexão'});
+    })
+  });
+  }
+
+  // Função modularizada para renovar o token antes das requisições
+  renovaTokenCallback(callback: any): void {
+    this.paisService.renovarToken().subscribe((response) => {
+      console.log('renovar callback');
+      if (response) {
+       callback();
       } else {
         this.alertService.warning({ title: 'Atenção!', msg: 'Por favor, faça login novamente.'});
       }
     }, error => {
       console.log(error);
       this.alertService.sendMessage({title: 'Atenção!', msg: 'Por favor, verifique sua conexão'});
-    });
-  }
-  delete(idPais) {
-    this.paisService.delete(idPais).subscribe(response => {
-
-    }, error => {
-
-    });
-  }
-
-  renovarToken() {
-    this.paisService.renovarToken().subscribe((response) => {
-      if (response) {
-      } else {
-        this.alertService.warning({ title: 'Atenção!', msg: 'Por favor, faça login novamente.'});
-      }
-    }, error => {
-      console.log(error);
-      this.alertService.warning({title: 'Atenção!', msg: 'Por favor, verifique sua conexão'});
     });
   }
 
@@ -117,10 +138,4 @@ export class PaisCadastroComponent implements OnInit {
 
 }
 
-export interface Pais {
-  id: number;
-  nome: string;
-  sigla: string;
-  gentilico: string;
-}
 

@@ -40,19 +40,24 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnSubmit() {
-        let login = this.dataForm.value.login;
-        let senha = this.dataForm.value.senha;
+        if (this.dataForm.invalid) {
+            this.alertService.warning({ title: 'Atenção!', msg : 'Campo(s) inválido(s)!' });
+        } else {
+            let login = this.dataForm.value.login;
+            let senha = this.dataForm.value.senha;
 
-        this.loginService.autenticar(login, senha).subscribe(
-        response => {
-            this.usuario = response;
-            if (this.usuario.autenticado) {
-                this.onLogin(this.usuario);
-            } else {
-                this.alertService.warning({ title: 'Atenção!', msg: 'Verifique os dados de acesso.'})
-            }
-        }, error => {
-            this.alertService.warning({ title: 'Atenção!', msg: 'Verifique sua conexão.'})
-        })
-    }
+            this.loginService.autenticar(login, senha).subscribe(
+            response => {
+                this.usuario = response;
+                if (this.usuario.autenticado) {
+                    this.onLogin(this.usuario);
+                } else {
+                    this.alertService.warning({ title: 'Atenção!', msg: 'Verifique os dados de acesso.'})
+                }
+            }, error => {
+                this.alertService.warning({ title: 'Atenção!', msg: 'Verifique sua conexão.'})
+            })
+        }
+    };
+    
 }

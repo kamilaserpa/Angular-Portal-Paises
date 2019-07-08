@@ -15,6 +15,7 @@ import {
 import { PaisService } from './pais.service';
 import { PaisListagemComponent } from './pais-listagem/pais-listagem.component';
 import { PaisCadastroComponent } from './pais-cadastro/pais-cadastro.component';
+import { InputSiglaComponent } from './input-sigla/input-sigla.component';
 
 @NgModule({
   imports: [
@@ -37,7 +38,7 @@ import { PaisCadastroComponent } from './pais-cadastro/pais-cadastro.component';
     MatButtonModule
   ],
   exports: [],
-  declarations: [PaisListagemComponent, PaisCadastroComponent],
+  declarations: [PaisListagemComponent, PaisCadastroComponent, InputSiglaComponent],
   providers: [PaisService]
 
 })

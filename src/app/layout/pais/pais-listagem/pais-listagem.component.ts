@@ -44,34 +44,21 @@ export class PaisListagemComponent implements OnInit {
   }
 
   listarPaises() {
-    this.paisService.listar().subscribe((response: Pais[]) => {
-      this.arrayPaises = response;
+    this.renovaTokenCallback(() => {
+      this.paisService.listar().subscribe((response: Pais[]) => {
+        console.log('listar paises');
+        this.arrayPaises = response;
 
-      // Montando Tabela, atribuindo ordenação e paginação
-      this.dataSource = new MatTableDataSource(this.arrayPaises);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
+        // Montando Tabela, atribuindo ordenação e paginação
+        this.dataSource = new MatTableDataSource(this.arrayPaises);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
 
-    }, error => {
-      if (error.status == 401) {
-        this.renovarToken();
-      } else {
-        this.alertService.warning({ title: 'Atenção!', msg: 'Por favor, verifique sua conexão'});
-      }
-    });
-  }
-
-  renovarToken() {
-    this.paisService.renovarToken().subscribe((response) => {
-      if (response) {
-        this.listarPaises();
-      } else {
-        this.alertService.warning({ title: 'Atenção!', msg: 'Por favor, faça login novamente.'});
-      }
-    }, error => {
-      console.log(error);
-      this.alertService.warning({title: 'Atenção!', msg: 'Por favor, verifique sua conexão'});
-    });
+      }, error => {
+        this.alertService.warning({ title: 'Atenção!', msg: 'Por favor, verifique sua conexão' });
+      });
+    }
+    );
   }
 
   updatePais(pais) {
@@ -88,14 +75,31 @@ export class PaisListagemComponent implements OnInit {
   }
 
   delete(idPais) {
-    this.paisService.delete(idPais).subscribe(response => {
-      console.log(response);
-    }, error => {
-      console.log(error);
-    })
+    this.renovaTokenCallback(() => {
+      this.paisService.delete(idPais).subscribe(response => {
+        console.log(response);
+        this.listarPaises();
+        this.alertService.success({ title: 'Ok!', msg: 'País excluído com sucesso.'});
+      }, error => {
+        this.alertService.danger({ title: 'Atenção!', msg: 'Não foi possível excluir.'});
+      });
+    });
   }
 
-
+  // Função modularizada para renovar o token antes das requisições
+  renovaTokenCallback(callback: any): void {
+    this.paisService.renovarToken().subscribe((response) => {
+      console.log('renovar callback');
+      if (response) {
+       callback();
+      } else {
+        this.alertService.warning({ title: 'Atenção!', msg: 'Por favor, faça login novamente.'});
+      }
+    }, error => {
+      this.alertService.sendMessage({title: 'Atenção!', msg: 'Por favor, verifique sua conexão'});
+    });
+  }
+  
 }
 
 

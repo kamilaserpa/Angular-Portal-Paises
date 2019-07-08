@@ -2,33 +2,32 @@
   <span>País</span>
 </mat-toolbar>
 
-<form [formGroup]="dataForm" ngNativeValidate>
+<form [formGroup]="dataForm">
   <mat-card>
     <mat-card-content>
       <div class="container">
         <mat-form-field>
-          <input matInput placeholder="Nome" formControlName="nome" />
+          <input matInput placeholder="Nome" name="nome" formControlName="nome" />
         </mat-form-field>
 
         <mat-form-field>
           <input matInput placeholder="Gentílico" formControlName="gentilico" />
         </mat-form-field>
 
-        <mat-form-field>
-          <input matInput placeholder="Sigla" formControlName="sigla" />
-        </mat-form-field>
+        <app-input-sigla (inputSigla)="getSigla($event)"></app-input-sigla>
 
       </div>
     </mat-card-content>
   </mat-card>
-</form>
+
 
 <mat-card class="mb-20">
   <mat-card-content>
-    <button mat-raised-button color="primary">Salvar</button>
-    <button mat-raised-button color="warn">Excluir</button>
+    <button mat-raised-button color="primary" (click)="save()">Salvar</button>
+    <button mat-raised-button color="warn" (click)="delete()" [disabled]="!pais.id">Excluir</button>
     <button mat-raised-button (click)="goToList()">Listagem</button>
   </mat-card-content>
 </mat-card>
+</form>
 
 <app-alert></app-alert>
